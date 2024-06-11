@@ -2,20 +2,20 @@ import UIKit
 
 
 // для состояния "Вопрос показан"
-struct QuizStepViewModel {
+private struct QuizStepViewModel {
     let image: UIImage
     let question: String
     let questionNumber: String
 }
 
 // для состояния "Результат квиза"
-struct QuizResultsViewModel {
+private struct QuizResultsViewModel {
     let title: String
     let text: String
     let buttonText: String
 }
 
-struct QuizQuestion {
+private struct QuizQuestion {
     // строка с названием фильма,
     // совпадает с названием картинки афиши фильма в Assets
     let image: String
@@ -126,25 +126,15 @@ final class MovieQuizViewController: UIViewController {
         counterLabel.text = step.questionNumber
     }
     
-    // приватный метод, который запрещает нажатие на кнопки "Да" и "Нет"
-    private func disableButtons() {
-        let buttons: [UIButton] = [yesButton, noButton]
-        for button in buttons {
-            button.isUserInteractionEnabled = false
-        }
-    }
-    
-    // приватный метод, который разрешает нажатие на кнопки "Да" и "Нет"
-    private func enableButtons() {
-        let buttons: [UIButton] = [yesButton, noButton]
-        for button in buttons {
-            button.isUserInteractionEnabled = true
-        }
+    // приватный метод, который изменяет состояние доступности кнопок "Да" и "Нет"
+    private func changeButtonsState(isEnabled: Bool) {
+        yesButton.isEnabled = isEnabled
+        noButton.isEnabled = isEnabled
     }
     
     // приватный метод, который обрабатывает результат ответа
     private func showAnswerResult(isCorrect: Bool) {
-        disableButtons()
+        changeButtonsState(isEnabled: false)
         if isCorrect {
             correctAnswers += 1
         }
@@ -157,7 +147,7 @@ final class MovieQuizViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.showNextQuestionOrResults()
             self.imageView.layer.borderWidth = 0
-            self.enableButtons()
+            self.changeButtonsState(isEnabled: true)
         }
     }
     
@@ -202,7 +192,6 @@ final class MovieQuizViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
 }
-
 
 
 /*
