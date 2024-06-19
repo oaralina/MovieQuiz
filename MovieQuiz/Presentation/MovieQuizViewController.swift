@@ -7,9 +7,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
     @IBOutlet var questionLabel: UILabel!
     @IBOutlet var counterLabel: UILabel!
     @IBOutlet var titleLabel: UILabel!
-
     @IBOutlet var yesButton: UIButton!
     @IBOutlet var noButton: UIButton!
+    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var UIActivityIndicator: UIActivityIndicatorView!
     
     // MARK: - Private Properties
     private var correctAnswers = 0
@@ -28,6 +29,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUIElementsHidden(true)
         
         titleLabel.font = UIFont(name: "YSDisplay-Medium", size: 20)
         counterLabel.font = UIFont(name: "YSDisplay-Medium", size: 20)
@@ -39,26 +41,11 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
         alertPresenter.alertController = self
         self.alertPresenter = alertPresenter
         
-        let questionFactory = QuestionFactory()
-        questionFactory.delegate = self
-        self.questionFactory = questionFactory
-        questionFactory.requestNextQuestion()
-        
+        questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
+        questionFactory?.loadData()
         statisticService = StatisticServiceImplementation()
-    }
-    
-    // MARK: - QuestionFactoryDelegate
-    func didReceiveNextQuestion(question: QuizQuestion?) {
-        guard let question = question else {
-            return
-        }
         
-        currentQuestion = question
-        let viewModel = convert(model: question)
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.show(quiz: viewModel)
-        }
+        showLoadingIndicator()
     }
     
     // MARK: - IB Actions
@@ -81,7 +68,35 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
         showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     
-    // MARK: - Public Methods
+    // MARK: - QuestionFactoryDelegate
+    func didReceiveNextQuestion(question: QuizQuestion?) {
+        guard let question = question else {
+            return
+        }
+        
+        currentQuestion = question
+        let viewModel = convert(model: question)
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.hideLoadingIndicator()
+            self?.setUIElementsHidden(false)
+            self?.show(quiz: viewModel)
+        }
+    }
+    
+    func didLoadDataFromServer() {
+        questionFactory?.requestNextQuestion()
+    }
+    
+    func didFailToLoadData(with error: Error) {
+        showNetworkError(text: error.localizedDescription)
+    }
+    
+    func didFailToLoadNextQuestion(with error: Error) {
+        showImageLoadError(text: error.localizedDescription)
+    }
+    
+    // MARK: - AlertPresenterProtocol
     func showNextQuestionOrResults() {
         if currentQuestionIndex == questionsAmount - 1 {
             statisticService?.store(correct: correctAnswers, total: questionsAmount)
@@ -96,6 +111,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
                 text: text,
                 buttonText: "Сыграть еще раз",
                 completion: {
+                    self.showLoadingIndicator()
                     self.currentQuestionIndex = 0
                     self.correctAnswers = 0
                     self.questionFactory?.requestNextQuestion()
@@ -104,19 +120,65 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
             alertPresenter?.show(alertModel: alertModel)
             correctAnswers = 0
         } else {
+            showLoadingIndicator()
             currentQuestionIndex += 1
             questionFactory?.requestNextQuestion()
         }
     }
     
     // MARK: - Private Methods
+    private func setUIElementsHidden(_ hidden: Bool) {
+        titleLabel.isHidden = hidden
+        counterLabel.isHidden = hidden
+        imageView.isHidden = hidden
+        questionLabel.isHidden = hidden
+        yesButton.isHidden = hidden
+        noButton.isHidden = hidden
+    }
+    
+    private func showLoadingIndicator() {
+        activityIndicator.isHidden = false
+        activityIndicator.color = UIColor.gray
+        activityIndicator.startAnimating()
+    }
+    
+    private func hideLoadingIndicator() {
+        activityIndicator.isHidden = true
+    }
+    
+    private func showNetworkError(text: String) {
+        hideLoadingIndicator()
+        let model = AlertModel(title: "Ошибка",
+                               text: text,
+                               buttonText: "Попробовать еще раз") { [weak self] in
+            guard let self else { return }
+            
+            showLoadingIndicator()
+            self.currentQuestionIndex = 0
+            self.correctAnswers = 0
+            self.questionFactory?.loadData()
+        }
+        alertPresenter?.show(alertModel: model)
+    }
+    
+    private func showImageLoadError(text: String) {
+        let model = AlertModel(title: "Ошибка",
+                               text: text,
+                               buttonText: "Попробовать еще раз") { [weak self] in
+            guard let self else { return }
+            
+            showLoadingIndicator()
+            self.questionFactory?.requestNextQuestion()
+        }
+        alertPresenter?.show(alertModel: model)
+    }
+    
     // метод конвертации, который принимает моковый вопрос и возвращает вью модель для экрана вопроса
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
-        let questionStep = QuizStepViewModel(
-            image: UIImage(named: model.image) ?? UIImage(),
+        return QuizStepViewModel(
+            image: UIImage(data: model.image) ?? UIImage(),
             question: model.text,
             questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
-        return questionStep
     }
     
     // приватный метод вывода на экран вопроса
@@ -156,7 +218,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
         }
     }
 }
-
 
 /*
  Mock-данные

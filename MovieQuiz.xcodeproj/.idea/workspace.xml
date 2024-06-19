@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c536deb0-e3a8-4c80-9ee7-fdd7347c1a50" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../MovieQuiz/Models/MostPopularMovies.swift" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieQuiz/Services/DataLoadError.swift" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieQuiz/Services/MoviesLoader.swift" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieQuiz/Services/NetworkClient.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieQuiz/Models/QuizQuestion.swift" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieQuiz/Models/QuizQuestion.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieQuiz/Presentation/Base.lproj/Main.storyboard" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieQuiz/Presentation/Base.lproj/Main.storyboard" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieQuiz/Presentation/MovieQuizViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieQuiz/Presentation/MovieQuizViewController.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieQuiz/Services/QuestionFactory.swift" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieQuiz/Services/QuestionFactory.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieQuiz/Services/QuestionFactoryDelegate.swift" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieQuiz/Services/QuestionFactoryDelegate.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieQuiz/Services/QuestionFactoryProtocol.swift" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieQuiz/Services/QuestionFactoryProtocol.swift" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="2i60yx2j9blDO8hxhvAZFvhHVjN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/Users/o.aralina/Practicum/projects/MovieQuiz-ios/MovieQuiz.xcodeproj"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-babbdf50b680-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.15989.155" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c536deb0-e3a8-4c80-9ee7-fdd7347c1a50" name="Changes" comment="" />
+      <created>1718795978905</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1718795978905</updated>
+    </task>
+    <servers />
+  </component>
+</project>
