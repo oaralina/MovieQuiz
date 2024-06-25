@@ -5,7 +5,7 @@
 //  Created by Оксана Аралина on 19.06.2024.
 //
 
-import UIKit
+import Foundation
 
 enum DataLoadError: Error, LocalizedError {
     case failedToLoadImage
