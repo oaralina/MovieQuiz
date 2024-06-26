@@ -28,14 +28,14 @@ final class MovieQuizUITests: XCTestCase {
     }
     
     func testYesButton() {
-        sleep(3)
+        sleep(2)
         
         let firstPoster = app.images["Poster"]
         let firstPosterData = firstPoster.screenshot().pngRepresentation
         let indexLabel = app.staticTexts["Index"]
         
         app.buttons["Yes"].tap()
-        sleep(3)
+        sleep(2)
         
         let secondPoster = app.images["Poster"]
         let secondPosterData = secondPoster.screenshot().pngRepresentation
@@ -45,14 +45,14 @@ final class MovieQuizUITests: XCTestCase {
     }
     
     func testNoButton() {
-        sleep(3)
+        sleep(2)
         
         let firstPoster = app.images["Poster"]
         let firstPosterData = firstPoster.screenshot().pngRepresentation
         let indexLabel = app.staticTexts["Index"]
         
         app.buttons["Yes"].tap()
-        sleep(3)
+        sleep(2)
         
         let secondPoster = app.images["Poster"]
         let secondPosterData = secondPoster.screenshot().pngRepresentation
@@ -70,13 +70,13 @@ final class MovieQuizUITests: XCTestCase {
             let randomButton = Bool.random() ? yesButton : noButton
             randomButton.tap()
             sleep(2)
-            }
-            
+        }
+        
         let alert = app.alerts["Game Result"]
         
         XCTAssertTrue(alert.exists)
         XCTAssertEqual(alert.label, "Этот раунд окончен!")
-        XCTAssertEqual(alert.buttons.firstMatch.label, "Сыграть еще раз")
+        XCTAssertEqual(alert.buttons.firstMatch.label, "Сыграть ещё раз")
     }
     
     func testStartNewGame() {
@@ -88,8 +88,8 @@ final class MovieQuizUITests: XCTestCase {
             let randomButton = Bool.random() ? yesButton : noButton
             randomButton.tap()
             sleep(2)
-            }
-            
+        }
+        
         let alert = app.alerts["Game Result"]
         alert.buttons.firstMatch.tap()
         sleep(2)
@@ -99,12 +99,12 @@ final class MovieQuizUITests: XCTestCase {
         XCTAssertFalse(alert.exists)
         XCTAssertEqual(indexLabel.label, "1/10")
     }
+    
+    func testExample() throws {
+        // UI tests must launch the application that they test.
+        let app = XCUIApplication()
+        app.launch()
         
-        func testExample() throws {
-            // UI tests must launch the application that they test.
-            let app = XCUIApplication()
-            app.launch()
-            
-            // Use XCTAssert and related functions to verify your tests produce the correct results.
-        }
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
+}
