@@ -11,9 +11,7 @@ final class StatisticServiceImplementation: StatisticServiceProtocol {
     private enum Keys: String {
         case correct
         case total
-        case bestGameCorrect
-        case bestGameTotal
-        case bestGameDate
+        case bestGame
         case gamesCount
     }
     
@@ -40,15 +38,17 @@ final class StatisticServiceImplementation: StatisticServiceProtocol {
     
     var bestGame: GameResult{
         get {
-            let correct = storage.integer(forKey: Keys.bestGameCorrect.rawValue)
-            let total = storage.integer(forKey: Keys.bestGameTotal.rawValue)
-            let date = storage.object(forKey: Keys.bestGameDate.rawValue) as? Date ?? Date()
-            return GameResult(correct: correct, total: total, date: date)
-        }
-        set {
-            storage.set(newValue.correct, forKey: Keys.bestGameCorrect.rawValue)
-            storage.set(newValue.total, forKey: Keys.bestGameTotal.rawValue)
-            storage.set(newValue.date, forKey: Keys.bestGameDate.rawValue)
+            guard let data = storage.data(forKey: Keys.bestGame.rawValue),
+                  let record = try? JSONDecoder().decode(GameResult.self, from: data) else {
+                return .init(correct: 0, total: 0, date: Date())
+            }
+            return record
+        } set {
+            guard let data = try? JSONEncoder().encode(newValue) else {
+                print("Невозможно сохранить результат")
+                return
+            }
+            storage.set(data, forKey: Keys.bestGame.rawValue)
         }
     }
     

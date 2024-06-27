@@ -5,8 +5,8 @@
 //  Created by Оксана Аралина on 13.06.2024.
 //
 
-import UIKit
+import Foundation
 
-protocol AlertPresenterProtocol: UIViewController {
-    func showNextQuestionOrResults()
+protocol AlertPresenterProtocol: AnyObject {
+    func showAlert(_ result: AlertModel)
 }

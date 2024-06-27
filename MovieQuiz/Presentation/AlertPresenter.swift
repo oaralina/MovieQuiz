@@ -7,21 +7,26 @@
 
 import UIKit
 
-class AlertPresenter: MovieQuizViewControllerDelelegate {
-    weak var alertController: AlertPresenterProtocol?
+final class AlertPresenter: AlertPresenterProtocol {
     
-    func show(alertModel: AlertModel) {
-        let alert = UIAlertController(
-            title: alertModel.title,
-            message: alertModel.text,
-            preferredStyle: .alert)
+    private weak var viewController: UIViewController?
+    
+    init(viewController: UIViewController?) {
+        self.viewController = viewController
+    }
+    
+    func showAlert(_ result: AlertModel) {
+        let alert = UIAlertController(title: result.title,
+                                      message: result.text,
+                                      preferredStyle: .alert)
+        
         alert.view.accessibilityIdentifier = "Game Result"
         
-        let action = UIAlertAction(title: alertModel.buttonText, style: .default) { _ in
-            alertModel.completion()
+        let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
+            result.completion()
         }
         
         alert.addAction(action)
-        alertController?.present(alert, animated: true)
+        viewController?.present(alert, animated: true, completion: nil)
     }
 }
